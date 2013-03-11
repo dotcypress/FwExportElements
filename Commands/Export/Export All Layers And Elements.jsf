@@ -52,17 +52,12 @@
   };
 
   try {
-
+    var outputDirectory = fw.browseForFolderURL("Choose export directory")
+    if(!outputDirectory){
+      return
+    }
     var originalSelection = fw.selection;
-    var outputDirectory = prompt("Export directory:", "/elements/");
-    if(outputDirectory == null){
-      return;
-    }
-    outputDirectory = "file:///" + outputDirectory;
-    if(!Files.exists(outputDirectory)){
-      Files.createDirectory(outputDirectory);
-    }
-    processElements(dom.layers, outputDirectory);
+    processElements(dom.layers, outputDirectory + "/");
     fw.selection = originalSelection;
 
   } catch (exception) {
