@@ -1,4 +1,4 @@
-Fireworks export layers extension
+Fireworks export elements extension
 =====
 
 This is the .zip version of a Fireworks extension.  It's generally better to use the Extension Manager application to install the .mxp version instead, since that will automatically put the files where they're supposed to go.  But the .zip is provided in case the Extension Manager fails for some reason.
