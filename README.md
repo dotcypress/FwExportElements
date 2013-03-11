@@ -10,3 +10,14 @@ Once the files are extracted, you can install them by moving the folders from th
 If you see folders named "win" or "mac", then there are also some platform-specific files that need to be copied.  Pick whichever folder corresponds to your operating system, and then copy its contents to the "Configuration" folder.
 
 For instance, if you downloaded the "Greeked Text" extension, you'll see two folders in the archive, named "Commands" and "Auto Shapes".  Move those folders to the Fireworks "Configuration" folder.  In this example, you should end up with two new files in "C:\Program Files\Adobe\Adobe Fireworks CS4\Configuration\Auto Shapes" and a new folder called "Greeked Text" in "C:\Program Files\Adobe\Adobe Fireworks CS4\Configuration\Commands".
+
+OS X Users
+=====
+
+Install the extension:
+
+	make link
+
+Run the extension against a `png` file (Fireworks should be running already): 
+
+	make run FILE=$HOME/Desktop/myfireworkfireworkssfile.png
