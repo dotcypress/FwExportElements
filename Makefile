@@ -14,4 +14,4 @@ run:
 	open -a "$(FIREWORKS)" "$(FILE)"
 	osascript \
 		-e 'tell app "Adobe Fireworks CS6" to activate' \
-		-e 'tell app "System Events" to tell application process "Adobe Fireworks CS6" to click menu item "Export Layers" of menu 1 of menu item "Export" of menu 1 of menu bar item "Commands" of menu bar 1'
+		-e 'tell app "System Events" to tell application process "Adobe Fireworks CS6" to click menu item "Export All Layers And Elements" of menu 1 of menu item "Export" of menu 1 of menu bar item "Commands" of menu bar 1'
