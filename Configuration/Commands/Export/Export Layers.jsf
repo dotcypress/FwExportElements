@@ -13,6 +13,7 @@
 
 (function()
 {
+  var counter = 0;
   var dom = fw.getDocumentDOM();
   var resolution = dom.resolution;
   var resolutionUnits = dom.resolutionUnits;
@@ -21,7 +22,7 @@
     fw.selection = layer;
     dom.cloneSelection();
     if(forRetina){
-      dom.resizeSelection(dom.layers[i].elems[j].width * 2, dom.layers[i].elems[j].height * 2)
+      dom.resizeSelection(layer.width * 2, layer.height * 2)
     }
     dom.flattenSelection();
     dom.clipCut();
@@ -36,6 +37,19 @@
     newDocumentDom.close(false);
   }
 
+  var processLayers = function(elements){
+    for (var i = 0, len = elements.length; i < len; i++){
+      counter++;
+      var element = elements[i];
+      var name = element.name || "Layer."  + counter;
+      exportLayer(element, folder + name + ".png");
+      exportLayer(element, folder + name + "@2x.png", true);
+      if(element.elems){
+        processLayers(element.elems);
+      }
+    }
+  }
+
   try {
 
     var originalSelection = fw.selection;
@@ -47,14 +61,8 @@
     if(!Files.exists(folder)){
       Files.createDirectory(folder);
     }
-    for (var i = 0, len = dom.layers.length; i < len; i++){
-      for (var j = 0, lenj = dom.layers[i].elems.length; j < lenj; j++){
-        var layer = dom.layers[i].elems[j];
-        var name = layer.name || "Layer."  + i + "." + j;
-        exportLayer(layer, folder + name + ".png");
-        exportLayer(layer, folder + name + "@2x.png", true);
-      }
-    }
+
+    processLayers(dom.layers)
 
     fw.selection = originalSelection;
 
