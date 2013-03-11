@@ -11,18 +11,19 @@
 
    ======================================================================== */
 
-(function()
-{
+(function(){
+
   var counter = 0;
   var dom = fw.getDocumentDOM();
   var resolution = dom.resolution;
   var resolutionUnits = dom.resolutionUnits;
 
-  var exportLayer = function(layer, fileName, forRetina){
-    fw.selection = layer;
+  var exportElement = function(element, fileName, forRetina){
+
+    fw.selection = element;
     dom.cloneSelection();
     if(forRetina){
-      dom.resizeSelection(layer.width * 2, layer.height * 2)
+      dom.resizeSelection(element.width * 2, element.height * 2);
     }
     dom.flattenSelection();
     dom.clipCut();
@@ -35,35 +36,33 @@
     newDocumentDom.setDocumentCanvasSizeToDocumentExtents(true);
     fw.exportDocumentAs(newDocumentDom, fileName, null);
     newDocumentDom.close(false);
-  }
+  };
 
-  var processLayers = function(elements){
+  var processElements = function(elements, outputDirectory){
     for (var i = 0, len = elements.length; i < len; i++){
       counter++;
       var element = elements[i];
-      var name = element.name || "Layer."  + counter;
-      exportLayer(element, folder + name + ".png");
-      exportLayer(element, folder + name + "@2x.png", true);
+      var name = element.name || "Element." + counter;
+      exportElement(element, outputDirectory + name + ".png");
+      exportElement(element, outputDirectory + name + "@2x.png", true);
       if(element.elems){
-        processLayers(element.elems);
+        processElements(element.elems, outputDirectory);
       }
     }
-  }
+  };
 
   try {
 
     var originalSelection = fw.selection;
-    var folder = prompt("Export folder:", "/layers/");
-    if(folder == null){
+    var outputDirectory = prompt("Export directory:", "/elements/");
+    if(outputDirectory == null){
       return;
     }
-    folder = "file:///" + folder;
-    if(!Files.exists(folder)){
-      Files.createDirectory(folder);
+    outputDirectory = "file:///" + outputDirectory;
+    if(!Files.exists(outputDirectory)){
+      Files.createDirectory(outputDirectory);
     }
-
-    processLayers(dom.layers)
-
+    processElements(dom.layers, outputDirectory);
     fw.selection = originalSelection;
 
   } catch (exception) {
@@ -75,5 +74,3 @@
   }
 
 })();
-
-
